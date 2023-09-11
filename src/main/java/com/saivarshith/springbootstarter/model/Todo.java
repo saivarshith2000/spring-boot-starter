@@ -1,12 +1,13 @@
 package com.saivarshith.springbootstarter.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.xml.transform.Source;
 import java.time.Instant;
 
 @Getter
@@ -19,7 +20,14 @@ public class Todo {
     private Long id;
     private String title;
     private String content;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
+
+    @Column(nullable = false)
+    @UpdateTimestamp(source = SourceType.DB)
     private Instant updatedAt;
-    private boolean completed;
+
+    private boolean completed = false;
 }
