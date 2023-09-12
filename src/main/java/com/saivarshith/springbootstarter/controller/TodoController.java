@@ -19,22 +19,22 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping("/all")
-    List<Todo> allTodos() {
+    public List<Todo> allTodos() {
         return todoService.getAllTodos();
     }
 
     @PostMapping("/new")
-    Todo newTodo(@Valid @RequestBody CreateTodoRequest dto) {
+    public Todo newTodo(@Valid @RequestBody CreateTodoRequest dto) {
         return todoService.createTodo(dto);
     }
 
     @PutMapping("/update/{id}")
-    Todo updateTodo(@PathVariable Long id, @Valid @RequestBody UpdateTodoRequest dto) {
+    public Todo updateTodo(@PathVariable Long id, @Valid @RequestBody UpdateTodoRequest dto) {
         return todoService.updateTodo(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<?> deleteTodo(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTodo(@PathVariable Long id) {
         todoService.deleteTodo(id);
         return ResponseEntity.ok("Todo deleted successfully");
     }
