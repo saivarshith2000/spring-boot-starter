@@ -1,7 +1,7 @@
 package com.saivarshith.springbootstarter.service;
 
-import com.saivarshith.springbootstarter.dto.CreateTodoDTO;
-import com.saivarshith.springbootstarter.dto.UpdateTodoDTO;
+import com.saivarshith.springbootstarter.dto.CreateTodoRequest;
+import com.saivarshith.springbootstarter.dto.UpdateTodoRequest;
 import com.saivarshith.springbootstarter.model.Todo;
 import com.saivarshith.springbootstarter.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo createTodo(CreateTodoDTO dto) {
+    public Todo createTodo(CreateTodoRequest dto) {
         Todo todo = new Todo();
         todo.setTitle(dto.getTitle());
         todo.setContent(dto.getContent());
@@ -29,7 +29,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo updateTodo(Long id, UpdateTodoDTO dto) {
+    public Todo updateTodo(Long id, UpdateTodoRequest dto) {
         Todo todo = todoRepository.findById(id).orElseThrow();
         todo.setTitle(dto.getTitle());
         todo.setContent(dto.getContent());
