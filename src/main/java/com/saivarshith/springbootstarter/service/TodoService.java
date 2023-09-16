@@ -7,6 +7,7 @@ import com.saivarshith.springbootstarter.model.Todo;
 import java.util.List;
 
 public interface TodoService {
+    Todo getById(Long id);
     List<Todo> getAllTodos();
     Todo createTodo(CreateTodoRequest dto);
     Todo updateTodo(Long id, UpdateTodoRequest dto);

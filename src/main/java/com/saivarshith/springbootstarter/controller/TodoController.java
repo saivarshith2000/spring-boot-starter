@@ -7,6 +7,7 @@ import com.saivarshith.springbootstarter.model.Todo;
 import com.saivarshith.springbootstarter.service.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,8 @@ public class TodoController {
     }
 
     @PostMapping("/new")
-    public Todo newTodo(@Valid @RequestBody CreateTodoRequest dto) {
-        return todoService.createTodo(dto);
+    public ResponseEntity<Todo> newTodo(@Valid @RequestBody CreateTodoRequest dto) {
+        return new ResponseEntity<>(todoService.createTodo(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
