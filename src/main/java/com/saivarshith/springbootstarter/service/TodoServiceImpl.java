@@ -4,6 +4,7 @@ import com.saivarshith.springbootstarter.dto.CreateTodoRequest;
 import com.saivarshith.springbootstarter.dto.UpdateTodoRequest;
 import com.saivarshith.springbootstarter.model.Todo;
 import com.saivarshith.springbootstarter.repository.TodoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
+
+    @Override
+    public Todo getById(Long id) {
+        return todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 
     @Override
     public List<Todo> getAllTodos() {
@@ -30,7 +36,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo updateTodo(Long id, UpdateTodoRequest dto) {
-        Todo todo = todoRepository.findById(id).orElseThrow();
+        Todo todo = todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         todo.setTitle(dto.getTitle());
         todo.setContent(dto.getContent());
         todo.setCompleted(dto.getCompleted());
