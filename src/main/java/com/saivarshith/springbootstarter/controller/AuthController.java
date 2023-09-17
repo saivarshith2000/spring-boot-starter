@@ -7,6 +7,7 @@ import com.saivarshith.springbootstarter.mapper.UserMapper;
 import com.saivarshith.springbootstarter.model.TodoUser;
 import com.saivarshith.springbootstarter.service.JWTService;
 import com.saivarshith.springbootstarter.service.TodoUserDetailsService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Auth")
 public class AuthController {
 
     private final TodoUserDetailsService userDetailsService;

@@ -5,6 +5,7 @@ import com.saivarshith.springbootstarter.dto.CreateTodoRequest;
 import com.saivarshith.springbootstarter.dto.UpdateTodoRequest;
 import com.saivarshith.springbootstarter.model.Todo;
 import com.saivarshith.springbootstarter.service.TodoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/todo")
 @RequiredArgsConstructor
+@Tag(name = "Todo")
 public class TodoController {
     private final TodoService todoService;
 
