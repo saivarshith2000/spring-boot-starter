@@ -1,5 +1,6 @@
 package com.saivarshith.springbootstarter.exception;
 
+import com.saivarshith.springbootstarter.dto.ErrorDTO;
 import com.saivarshith.springbootstarter.dto.ValidationErrorsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,10 @@ public class GlobalControllerAdvice {
             errors.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(new ValidationErrorsDTO(errors, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AppException.class)
+    ResponseEntity<ErrorDTO> handleAppException(AppException ex ) {
+        return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), ex.getStatus()), ex.getStatus());
     }
 }
