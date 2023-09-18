@@ -3,10 +3,15 @@ package com.saivarshith.springbootstarter.service;
 import com.saivarshith.springbootstarter.dto.CreateTodoRequest;
 import com.saivarshith.springbootstarter.dto.UpdateTodoRequest;
 import com.saivarshith.springbootstarter.model.Todo;
+import com.saivarshith.springbootstarter.model.TodoUser;
 import com.saivarshith.springbootstarter.repository.TodoRepository;
+import com.saivarshith.springbootstarter.repository.TodoUserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
+    private final TodoUserRepository userRepository;
 
     @Override
     public Todo getById(Long id) {
@@ -21,17 +27,21 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Todo> getAllTodos() {
-        return todoRepository.findAll();
+    public List<Todo> getAllTodos(Long userId) {
+        return todoRepository.findByUserId(userId);
     }
 
     @Override
-    public Todo createTodo(CreateTodoRequest dto) {
+    @Transactional
+    public Todo createTodo(Long userId, CreateTodoRequest dto) {
         Todo todo = new Todo();
         todo.setTitle(dto.getTitle());
         todo.setContent(dto.getContent());
         todo.setCompleted(false);
-        return todoRepository.save(todo);
+        TodoUser user = userRepository.findById(userId).orElseThrow();
+        todo.setUser(user);
+        todoRepository.save(todo);
+        return todo;
     }
 
     @Override

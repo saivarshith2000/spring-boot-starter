@@ -1,5 +1,6 @@
 package com.saivarshith.springbootstarter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,4 +32,9 @@ public class Todo {
     private Instant updatedAt;
 
     private boolean completed = false;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    @JsonIgnore
+    private TodoUser user;
 }

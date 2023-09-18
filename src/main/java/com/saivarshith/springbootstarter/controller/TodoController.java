@@ -4,12 +4,14 @@ package com.saivarshith.springbootstarter.controller;
 import com.saivarshith.springbootstarter.dto.CreateTodoRequest;
 import com.saivarshith.springbootstarter.dto.UpdateTodoRequest;
 import com.saivarshith.springbootstarter.model.Todo;
+import com.saivarshith.springbootstarter.model.TodoUser;
 import com.saivarshith.springbootstarter.service.TodoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +24,13 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping("/all")
-    public List<Todo> allTodos() {
-        return todoService.getAllTodos();
+    public List<Todo> allTodos(@AuthenticationPrincipal TodoUser user) {
+        return todoService.getAllTodos(user.getId());
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Todo> newTodo(@Valid @RequestBody CreateTodoRequest dto) {
-        return new ResponseEntity<>(todoService.createTodo(dto), HttpStatus.CREATED);
+    public ResponseEntity<Todo> newTodo(@AuthenticationPrincipal TodoUser user, @Valid @RequestBody CreateTodoRequest dto) {
+        return new ResponseEntity<>(todoService.createTodo(user.getId(), dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

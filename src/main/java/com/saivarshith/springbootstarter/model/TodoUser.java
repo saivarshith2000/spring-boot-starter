@@ -1,15 +1,14 @@
 package com.saivarshith.springbootstarter.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +22,14 @@ public class TodoUser implements UserDetails {
     private String firstName;
     private String lastName;
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Todo> todos;
+
+    public void addTodo(Todo todo) {
+        todo.setUser(this);
+        todos.add(todo);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
